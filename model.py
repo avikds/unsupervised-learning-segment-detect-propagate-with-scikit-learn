@@ -119,8 +119,14 @@ def digits_data(test_size=0.25, random_state=42):
 
     return X_train, X_test, y_train, y_test
 
-# Step 10 - baseline_50_random (not yet solved)
-# TODO: implement
+# Step 10 - baseline_50_random
+from sklearn.linear_model import LogisticRegression
+
+def baseline_50_random(X_train, y_train, X_test, y_test, n_labeled=50, random_state=42):
+    clf = LogisticRegression(max_iter=10000)
+    clf.fit(X_train[:n_labeled], y_train[:n_labeled])
+    
+    return float(clf.score(X_test, y_test))
 
 # Step 11 - representative_digits (not yet solved)
 # TODO: implement
