@@ -223,6 +223,9 @@ def save_and_reload_clusterer(kmeans, rep_labels, path):
 
     return joblib.load(path)
 
-# Step 17 - predict_digit_labels (not yet solved)
-# TODO: implement
+# Step 17 - predict_digit_labels
+def predict_digit_labels(bundle, images):
+    X = images.reshape(images.shape[0], -1)
+    clusters = bundle["kmeans"].predict(X)
+    return [int(label) for label in bundle["rep_labels"][clusters]]
 
