@@ -180,8 +180,26 @@ def propagate_and_train(X_train, y_train, kmeans, rep_idx, X_test, y_test, perce
         "test_accuracy": test_accuracy
     }
 
-# Step 14 - synthetic_image (not yet solved)
-# TODO: implement
+# Step 14 - synthetic_image
+def synthetic_image(size=48):
+    img = np.zeros((size, size, 3), dtype=np.float64)
+
+    half = size // 2
+    gradient = np.linspace(0, 1, half)
+
+    # Left half: red -> yellow
+    img[:, :half, 0] = 1.0
+    img[:, :half, 1] = gradient
+
+    # Right half: blue -> cyan
+    img[:, half:, 1] = gradient[:size - half]
+    img[:, half:, 2] = 1.0
+
+    # White square in the top-left corner
+    square = size // 4
+    img[:square, :square] = 1.0
+
+    return img
 
 # Step 15 - segment_colors (not yet solved)
 # TODO: implement
