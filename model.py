@@ -146,8 +146,39 @@ def train_on_representatives(X_train, y_train, rep_idx, X_test, y_test):
 
     return float(clf.score(X_test, y_test))
 
-# Step 13 - propagate_and_train (not yet solved)
-# TODO: implement
+# Step 13 - propagate_and_train
+def propagate_and_train(X_train, y_train, kmeans, rep_idx, X_test, y_test, percentile=20):
+    distances = kmeans.transform(X_train)
+    cluster_labels = kmeans.predict(X_train)
+
+    propagated_labels = np.empty(len(X_train), dtype=int)
+    selected = np.zeros(len(X_train), dtype=bool)
+
+    for j in range(kmeans.n_clusters):
+        cluster_mask = cluster_labels == j
+        cluster_indices = np.where(cluster_mask)[0]
+        cluster_distances = distances[cluster_indices, j]
+
+        threshold = np.percentile(cluster_distances, percentile)
+        selected_cluster = cluster_distances <= threshold
+
+        selected[cluster_indices[selected_cluster]] = True
+        propagated_labels[cluster_indices] = y_train[rep_idx[j]]
+
+    X_selected = X_train[selected]
+    y_propagated = propagated_labels[selected]
+
+    clf = LogisticRegression(max_iter=10000)
+    clf.fit(X_selected, y_propagated)
+
+    label_accuracy = float(np.mean(y_propagated == y_train[selected]))
+    test_accuracy = float(clf.score(X_test, y_test))
+
+    return {
+        "n_propagated": int(selected.sum()),
+        "label_accuracy": label_accuracy,
+        "test_accuracy": test_accuracy
+    }
 
 # Step 14 - synthetic_image (not yet solved)
 # TODO: implement
