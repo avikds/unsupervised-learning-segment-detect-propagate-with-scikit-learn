@@ -201,8 +201,16 @@ def synthetic_image(size=48):
 
     return img
 
-# Step 15 - segment_colors (not yet solved)
-# TODO: implement
+# Step 15 - segment_colors
+def segment_colors(image, k=4, random_state=42):
+    h, w, _ = image.shape
+    pixels = image.reshape(-1, 3)
+
+    kmeans = fit_kmeans(pixels, k, random_state)
+    labels = kmeans.labels_
+    segmented = kmeans.cluster_centers_[labels]
+
+    return segmented.reshape(h, w, 3)
 
 # Step 16 - save_and_reload_clusterer (not yet solved)
 # TODO: implement
