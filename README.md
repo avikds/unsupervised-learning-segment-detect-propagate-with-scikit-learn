@@ -28,6 +28,24 @@ python scaffold.py
 - [x] **16.** save_and_reload_clusterer
 - [x] **17.** predict_digit_labels
 
----
+## Results
 
-Built on Deep-ML.
+```
+inertia by k:   1:3,536  2:1,170  3:663  4:266  5:213  6:173  7:147  8:122
+silhouette by k:2:0.589  3:0.569  4:0.685  5:0.657  6:0.604  7:0.556  8:0.561
+silhouette picks k = 4; the data was generated with 5 blobs (three of them tightly packed, which is why 4 looks good too)
+DBSCAN eps=0.05: 7 clusters, 77 noise points, 808 core samples
+DBSCAN eps=0.2: 2 clusters, 0 noise points, 1000 core samples
+new points assigned via core-sample KNN: [1, 0, 1, 0]
+BIC by components: 2:5,657  3:5,197  4:3,964  5:3,470  6:3,512  7:3,554  -> 5 components
+anomalies at 4% contamination: 80 of 2000 points flagged by low density
+
+digits, 50-label budget:
+  50 random labels             -> test accuracy 0.804
+  50 representative labels     -> test accuracy 0.900
+  propagated to 291 points (96.9% of them correctly) -> test accuracy 0.900
+  every label (1347)        -> test accuracy 0.962
+
+color segmentation: 49 colors -> 4
+served on 8 raw images: [0, 1, 8, 3, 4, 3, 6, 7] (truth [0, 1, 2, 3, 4, 5, 6, 7])
+```
